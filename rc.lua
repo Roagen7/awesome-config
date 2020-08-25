@@ -5,6 +5,7 @@ pcall(require, "luarocks.loader")
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
+
 require("awful.autofocus")
 -- Widget and layout library
 local wibox = require("wibox")
@@ -564,6 +565,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 awful.spawn.with_shell("nitrogen --restore")
 awful.spawn.with_shell("spotify")
+awful.spawn.with_shell("pavucontrol")
 awful.spawn.with_shell("caprine")
 awful.spawn.with_shell("compton")
 awful.spawn.with_shell("nm-applet")
