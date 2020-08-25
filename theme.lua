@@ -73,7 +73,7 @@ theme.menu_width  = dpi(200)
 --wibar adjustments
 
 
-theme.wibar_height = dpi(40)
+theme.wibar_height = dpi(30)
 
 
 

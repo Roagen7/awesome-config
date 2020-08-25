@@ -205,31 +205,33 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create a tasklist widget
-    s.mytasklist = awful.widget.tasklist {
-        screen  = s,
-        filter  = awful.widget.tasklist.filter.currenttags,
-        buttons = tasklist_buttons
-    }
+    s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons,
+    {disable_task_name = true, align="center"},
+     mylistupdate
+)
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
+        expand = "none",
         layout = wibox.layout.align.horizontal,
+        
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             mylauncher,
             s.mytaglist,
             s.mypromptbox,
         },
+        layout = wibox.layout.fixed.horizontal,
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
+            --mykeyboardlayout,
             wibox.widget.systray(),
             mytextclock,
-            s.mylayoutbox,
+            
         },
     }
 end)
@@ -579,7 +581,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 --autostart
 
 awful.spawn.with_shell("nitrogen --restore")
-awful.spawn.with_shell("spotify")
+--awful.spawn.with_shell("spotify")
 awful.spawn.with_shell("pavucontrol")
 awful.spawn.with_shell("caprine")
 awful.spawn.with_shell("compton")
