@@ -98,13 +98,15 @@ favoritemenu = {
     {"minecraft",function() awful.spawn.with_shell("minecraft-launcher") end},
     {"messenger", function() awful.spawn.with_shell("caprine") end},
     {"spotify", function() awful.spawn.with_shell("spotify") end},
+    {"steam", function() awful.spawn.with_shell("steam") end}
+    
 
 
 }
 
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "favorite", favoritemenu },
+                                    { "favorites", favoritemenu },
                                     { "open terminal", terminal }
                                   }
                         })
