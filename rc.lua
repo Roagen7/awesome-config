@@ -91,7 +91,20 @@ myawesomemenu = {
    { "quit", function() awesome.quit() end },
 }
 
+favoritemenu = {
+    {"firefox", function() awful.spawn.with_shell("firefox") end},
+    {"krita", function() awful.spawn.with_shell("krita") end},
+    {"discord", function() awful.spawn.with_shell("discord") end},
+    {"minecraft",function() awful.spawn.with_shell("minecraft-launcher") end},
+    {"messenger", function() awful.spawn.with_shell("caprine") end},
+    {"spotify", function() awful.spawn.with_shell("spotify") end},
+
+
+}
+
+
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                    { "favorite", favoritemenu },
                                     { "open terminal", terminal }
                                   }
                         })
