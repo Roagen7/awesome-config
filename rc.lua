@@ -122,8 +122,12 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
--- Create a textclock widget
+-- Create a textclock and systray widget
 mytextclock = wibox.widget.textclock()
+
+
+
+
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -182,7 +186,7 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
-    set_wallpaper(s)
+    --set_wallpaper(s)
 
     -- Each screen has its own tag table.
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
@@ -206,15 +210,20 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons,
-    {disable_task_name = true, align="center"},
+    {disable_task_name = true, align="right"},
      mylistupdate
 )
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
+    
+    mysystray = wibox.widget.systray(true)
+
+
 
     -- Add widgets to the wibox
     s.mywibox:setup {
+        
         expand = "none",
         layout = wibox.layout.align.horizontal,
         
@@ -224,12 +233,13 @@ awful.screen.connect_for_each_screen(function(s)
             s.mytaglist,
             s.mypromptbox,
         },
-        layout = wibox.layout.fixed.horizontal,
+        
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            
             --mykeyboardlayout,
-            wibox.widget.systray(),
+            mysystray,
             mytextclock,
             
         },
@@ -249,6 +259,10 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
+    awful.key({ modkey,           }, "=",function ()
+        mysystray.visible = not mysystray.visible
+        end,
+              {description="hide systray", group="awesome"}),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
