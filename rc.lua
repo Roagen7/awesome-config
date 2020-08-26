@@ -93,11 +93,19 @@ myawesomemenu = {
    { "quit", function() awesome.quit() end },
 }
 
+
+minecraftmenu = {
+    {"minecraft-launcher",function() awful.spawn.with_shell("minecraft-launcher") end},
+    {"technic-launcher",function() awful.spawn.with_shell("java -jar ~/Programs/minecraft/TechnicLauncher.jar") end}
+
+}
+
+
 favoritemenu = {
     {"firefox", function() awful.spawn.with_shell("firefox") end},
     {"krita", function() awful.spawn.with_shell("krita") end},
     {"discord", function() awful.spawn.with_shell("discord") end},
-    {"minecraft",function() awful.spawn.with_shell("minecraft-launcher") end},
+    {"minecraft",minecraftmenu},
     {"messenger", function() awful.spawn.with_shell("caprine") end},
     {"spotify", function() awful.spawn.with_shell("spotify") end},
     {"steam", function() awful.spawn.with_shell("steam") end},
@@ -235,16 +243,18 @@ awful.screen.connect_for_each_screen(function(s)
             s.mytaglist,
             s.mypromptbox,
         },
+
+        { -- Right widgets
+        layout = wibox.layout.fixed.horizontal,
+        
+        --mykeyboardlayout,
+        mysystray,
+        mytextclock,
+        
+    },
         
         s.mytasklist, -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            
-            --mykeyboardlayout,
-            mysystray,
-            mytextclock,
-            
-        },
+      
     }
 end)
 -- }}}
@@ -597,7 +607,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 --autostart
 
 awful.spawn.with_shell("nitrogen --restore")
---awful.spawn.with_shell("spotify")
+awful.spawn.with_shell("spotify")
 awful.spawn.with_shell("pavucontrol")
 awful.spawn.with_shell("caprine")
 awful.spawn.with_shell("compton")
