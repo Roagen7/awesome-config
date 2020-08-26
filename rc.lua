@@ -15,6 +15,8 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+
+archicon = "~/.config/awesome/archlinux-icon.png"
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
@@ -98,18 +100,18 @@ favoritemenu = {
     {"minecraft",function() awful.spawn.with_shell("minecraft-launcher") end},
     {"messenger", function() awful.spawn.with_shell("caprine") end},
     {"spotify", function() awful.spawn.with_shell("spotify") end},
-    {"steam", function() awful.spawn.with_shell("steam") end}
-    
+    {"steam", function() awful.spawn.with_shell("steam") end},
+    {"file manager", function() awful.spawn.with_shell("nautilus .") end},
+    {"writer", function() awful.spawn.with_shell("libreoffice --writer") end},
 
 
 }
 
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "favorites", favoritemenu },
-                                    { "open terminal", terminal }
-                                  }
+mymainmenu = awful.menu({ items = favoritemenu
                         })
+
+
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
