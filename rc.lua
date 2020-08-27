@@ -18,19 +18,15 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 
 -- widgets lib
 
-local vicious = require("vicious")
+
 
 
 --local network = vicious.widgets.wifi()
 
-cpuwidget = awful.widget.graph()
-cpuwidget:set_width(50)
-cpuwidget:set_background_color"#494B4F"
-cpuwidget:set_color{type = "linear", from = {0, 0}, to = {50, 0},
-                    stops = {{0, "#FF5656"}, {0.5, "#88A175"}, {1, "#AECF96"}}}
-vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 3)
 
 
+
+local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local cw = calendar_widget({
     theme = 'dark'
@@ -253,9 +249,35 @@ awful.screen.connect_for_each_screen(function(s)
      mylistupdate
 )
 
-
+    local fg_color = '#5e495d'
     --widget grouping
+    myrightwidget = {
+            
+        layout = wibox.layout.fixed.horizontal,
+        --s.mytasklist, 
     
+        {   
+            layout = wibox.layout.fixed.horizontal,
+            
+            volume_widget({display_notification = true}),
+            wibox.container.margin(volumebar_widget({
+                main_color = fg_color,
+                mute_color = '#ff0000',
+                width = 50,
+                
+               shape = "rounded_bar", -- octogon, hexagon, powerline, etc
+                -- bar's height = wibar's height minus 2x margins
+                margins = 11
+            }),10, 10),
+            wibox.container.margin( cpu_widget({color = fg_color}),10,10),
+        },
+        
+    
+        
+        
+        
+
+        }
 
 
 
@@ -295,29 +317,10 @@ awful.screen.connect_for_each_screen(function(s)
         
     },
         --right
-        
-        
-        
-        {
-            
-        layout = wibox.layout.fixed.horizontal,
-        --s.mytasklist, 
-        --network,
-        volume_widget({display_notification = true}),
-        wibox.container.margin(volumebar_widget({
-            main_color = '#5e495d',
-            mute_color = '#ff0000',
-            width = 50,
-            
-           shape = "rounded_bar", -- octogon, hexagon, powerline, etc
-            -- bar's height = wibar's height minus 2x margins
-            margins = 11
-        }),10, 10),
-        
+        myrightwidget
         
         
 
-        }
         
       
     }
