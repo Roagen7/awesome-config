@@ -16,6 +16,13 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
+-- widgets lib
+local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+local cw = calendar_widget({
+    theme = 'dark'
+}) 
+
+
 archicon = "~/.config/awesome/archlinux-icon.png"
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
@@ -134,6 +141,11 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- {{{ Wibar
 -- Create a textclock and systray widget
 mytextclock = wibox.widget.textclock()
+
+mytextclock:connect_signal("button::press", 
+    function(_,_,_, button)
+        if button == 1 then cw.toggle() end
+    end )
 
 
 
@@ -607,7 +619,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 --autostart
 
 awful.spawn.with_shell("nitrogen --restore")
-awful.spawn.with_shell("spotify")
+--awful.spawn.with_shell("spotify")
 awful.spawn.with_shell("pavucontrol")
 awful.spawn.with_shell("caprine")
 awful.spawn.with_shell("compton")
