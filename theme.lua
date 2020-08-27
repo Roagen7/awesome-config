@@ -11,7 +11,7 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font          = "sans 12"
+theme.font          = "Monospace 11"
 
 violet = "#9e7b9b77"
 dark_violet = "#5e495d77"
@@ -78,7 +78,7 @@ theme.menu_width  = dpi(200)
 --wibar adjustments
 
 
-theme.wibar_height = dpi(30)
+theme.wibar_height = dpi(25)
 
 
 

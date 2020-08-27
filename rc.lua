@@ -17,10 +17,27 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
 -- widgets lib
+
+local vicious = require("vicious")
+
+
+--local network = vicious.widgets.wifi()
+
+cpuwidget = awful.widget.graph()
+cpuwidget:set_width(50)
+cpuwidget:set_background_color"#494B4F"
+cpuwidget:set_color{type = "linear", from = {0, 0}, to = {50, 0},
+                    stops = {{0, "#FF5656"}, {0.5, "#88A175"}, {1, "#AECF96"}}}
+vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 3)
+
+
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local cw = calendar_widget({
     theme = 'dark'
 }) 
+
+local volume_widget = require("awesome-wm-widgets.volume-widget.volume")
+local volumebar_widget = require("awesome-wm-widgets.volumebar-widget.volumebar")
 
 
 archicon = "~/.config/awesome/archlinux-icon.png"
@@ -236,11 +253,22 @@ awful.screen.connect_for_each_screen(function(s)
      mylistupdate
 )
 
+
+    --widget grouping
+    
+
+
+
+
+
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
     
     mysystray = wibox.widget.systray(true)
+    mysystray.visible = false
 
+
+    s.option_box = wibox()
 
 
     -- Add widgets to the wibox
@@ -251,23 +279,49 @@ awful.screen.connect_for_each_screen(function(s)
         
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            mylauncher,
+            --mylauncher,
             s.mytaglist,
             s.mypromptbox,
         },
 
-        { -- Right widgets
+        --middle
+        { 
         layout = wibox.layout.fixed.horizontal,
         
         --mykeyboardlayout,
+        --cpuwidget,
         mysystray,
         mytextclock,
         
     },
+        --right
         
-        s.mytasklist, -- Middle widget
+        
+        
+        {
+            
+        layout = wibox.layout.fixed.horizontal,
+        --s.mytasklist, 
+        --network,
+        volume_widget({display_notification = true}),
+        wibox.container.margin(volumebar_widget({
+            main_color = '#5e495d',
+            mute_color = '#ff0000',
+            width = 50,
+            
+           shape = "rounded_bar", -- octogon, hexagon, powerline, etc
+            -- bar's height = wibar's height minus 2x margins
+            margins = 11
+        }),10, 10),
+        
+        
+        
+
+        }
+        
       
     }
+    
 end)
 -- }}}
 
@@ -306,7 +360,7 @@ globalkeys = gears.table.join(
         end,
         {description = "focus previous by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
+    awful.key({ modkey,           }, "w", function () mymainmenu:toggle() end,
               {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
