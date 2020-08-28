@@ -27,9 +27,11 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 
 
 local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
+local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local cw = calendar_widget({
-    theme = 'dark'
+    theme = 'dark',
+    
 }) 
 
 local volume_widget = require("awesome-wm-widgets.volume-widget.volume")
@@ -71,7 +73,7 @@ end
 beautiful.init("~/.config/awesome/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "terminator -l New_Layout"
+terminal = "alacritty"
 editor = os.getenv("code") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -131,6 +133,7 @@ favoritemenu = {
     {"steam", function() awful.spawn.with_shell("steam") end},
     {"file manager", function() awful.spawn.with_shell("nautilus .") end},
     {"writer", function() awful.spawn.with_shell("libreoffice --writer") end},
+    {"okular", function() awful.spawn.with_shell("okular") end}
 
 
 }
@@ -249,7 +252,7 @@ awful.screen.connect_for_each_screen(function(s)
      mylistupdate
 )
 
-    local fg_color = '#5e495d'
+    local fg_color = "#8abeb7"
     --widget grouping
     myrightwidget = {
             
@@ -265,12 +268,13 @@ awful.screen.connect_for_each_screen(function(s)
                 mute_color = '#ff0000',
                 width = 50,
                 
-               shape = "rounded_bar", -- octogon, hexagon, powerline, etc
+               shape = "bar", -- octogon, hexagon, powerline, etc
                 -- bar's height = wibar's height minus 2x margins
-                margins = 11
+                margins = 10
             }),10, 10),
             wibox.container.margin( cpu_widget({color = fg_color}),10,10),
         },
+        --ram_widget({color=fg_color}),
         
     
         

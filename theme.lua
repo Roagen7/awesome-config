@@ -11,14 +11,17 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font          = "Monospace 11"
+theme.font          = "scientifica 11"
 
 violet = "#9e7b9b77"
 dark_violet = "#5e495d77"
+cyan = "#8abeb777"
+black = "#00000077"
+white = "#ffffff77"
 
 
 
-theme.bg_normal     = "#00000077"
+theme.bg_normal     = black
 theme.bg_focus      = dark_violet
 theme.bg_urgent     = "#ffffff77"
 theme.bg_minimize   = "#00000077"
