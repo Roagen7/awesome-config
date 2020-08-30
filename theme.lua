@@ -81,7 +81,7 @@ theme.menu_width  = dpi(200)
 --wibar adjustments
 
 theme.wibar_stretch = false
-theme.wibar_height = dpi(25)
+theme.wibar_height = dpi(30)
 
 
 

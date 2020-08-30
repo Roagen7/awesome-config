@@ -99,7 +99,7 @@ awful.layout.layouts = {
     --awful.layout.suit.max.fullscreen,
     --awful.layout.suit.magnifier,
     --awful.layout.suit.corner.nw,
-    -- awful.layout.suit.corner.ne,
+     --awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
 }
@@ -108,7 +108,7 @@ awful.layout.layouts = {
 -- {{{ Menu
 -- Create a launcher widget and a main menu
 myawesomemenu = {
-   { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
+   
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
@@ -133,7 +133,8 @@ favoritemenu = {
     {"steam", function() awful.spawn.with_shell("steam") end},
     {"file manager", function() awful.spawn.with_shell("nautilus .") end},
     {"writer", function() awful.spawn.with_shell("libreoffice --writer") end},
-    {"okular", function() awful.spawn.with_shell("okular") end}
+    {"okular", function() awful.spawn.with_shell("okular") end},
+    { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
 
 
 }
@@ -288,11 +289,11 @@ awful.screen.connect_for_each_screen(function(s)
 
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ screen = s, width = s.geometry.width/3, x = s.geometry.x, y = s.geometry.y})
+    s.mywibox = wibox({screen = s,ontop = false, visible = true,height = s.geometry.height /25 ,width = s.geometry.width/3, x = 50, y = 50})
     
     mysystray = wibox.widget.systray(true)
     mysystray.visible = false
-
+    
 
     s.option_box = wibox()
 
@@ -300,7 +301,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Add widgets to the wibox
     s.mywibox:setup {
-        
+        type = "dock",
         expand = "none",
         layout = wibox.layout.align.horizontal,
         
@@ -323,11 +324,6 @@ awful.screen.connect_for_each_screen(function(s)
     },
         --right
         myrightwidget
-        
-        
-
-        
-      
     }
 
     
@@ -350,6 +346,10 @@ globalkeys = gears.table.join(
         mysystray.visible = not mysystray.visible
         end,
               {description="hide systray", group="awesome"}),
+    awful.key({ modkey,           }, "-",function ()
+        wiboxbox.ontop = not wibox.ontop
+                end,
+                      {description="toggle wibox", group="awesome"}),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
