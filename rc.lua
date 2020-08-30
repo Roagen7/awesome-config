@@ -227,7 +227,7 @@ awful.screen.connect_for_each_screen(function(s)
     --set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+    awful.tag({ "I", "II", "III", "IV", "V", "VI" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -252,7 +252,7 @@ awful.screen.connect_for_each_screen(function(s)
      mylistupdate
 )
 
-    local fg_color = "#8abeb7"
+    local fg_color = "#ffffff"
     --widget grouping
     myrightwidget = {
             
@@ -262,7 +262,7 @@ awful.screen.connect_for_each_screen(function(s)
         {   
             layout = wibox.layout.fixed.horizontal,
             
-            volume_widget({display_notification = true}),
+            --volume_widget({display_notification = true}),
             wibox.container.margin(volumebar_widget({
                 main_color = fg_color,
                 mute_color = '#ff0000',
@@ -288,7 +288,7 @@ awful.screen.connect_for_each_screen(function(s)
 
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibox = awful.wibar({ screen = s, width = s.geometry.width/3, x = s.geometry.x, y = s.geometry.y})
     
     mysystray = wibox.widget.systray(true)
     mysystray.visible = false
@@ -296,6 +296,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     s.option_box = wibox()
 
+    
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -328,6 +329,7 @@ awful.screen.connect_for_each_screen(function(s)
         
       
     }
+
     
 end)
 -- }}}
