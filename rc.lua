@@ -26,8 +26,8 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 
 
 
-local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
-local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
+--local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
+
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local cw = calendar_widget({
     theme = 'dark',
@@ -108,7 +108,7 @@ awful.layout.layouts = {
 -- {{{ Menu
 -- Create a launcher widget and a main menu
 myawesomemenu = {
-   { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
+   
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
@@ -133,7 +133,9 @@ favoritemenu = {
     {"steam", function() awful.spawn.with_shell("steam") end},
     {"file manager", function() awful.spawn.with_shell("nautilus .") end},
     {"writer", function() awful.spawn.with_shell("libreoffice --writer") end},
-    {"okular", function() awful.spawn.with_shell("okular") end}
+    {"okular", function() awful.spawn.with_shell("okular") end},
+    {"teams", function() awful.spawn.with_shell("teams") end},
+    { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end }
 
 
 }
@@ -227,7 +229,7 @@ awful.screen.connect_for_each_screen(function(s)
     --set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "I", "II", "III", "IV", "V", "VI" }, s, awful.layout.layouts[1])
+    awful.tag({ "MAIN", "WEB", "DEV", "DEV2", "RND", "RND" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -272,7 +274,7 @@ awful.screen.connect_for_each_screen(function(s)
                 -- bar's height = wibar's height minus 2x margins
                 margins = 10
             }),10, 10),
-            wibox.container.margin( cpu_widget({color = fg_color}),10,10),
+            --wibox.container.margin( cpu_widget({color = fg_color}),10,10),
         },
         --ram_widget({color=fg_color}),
         
@@ -345,6 +347,14 @@ root.buttons(gears.table.join(
 -- {{{ Key bindings
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
+            {description="show help", group="awesome"}),
+    awful.key({ modkey, "Control"}, "s", function () 
+        awful.spawn.with_shell("shutdown") 
+        naughty.notify({ preset = naughty.config.presets.critical,
+                     title = "your system will shut down in 1 minute",
+                     text = awesome.startup_errors })
+    
+        end,
               {description="show help", group="awesome"}),
     awful.key({ modkey,           }, "=",function ()
         mysystray.visible = not mysystray.visible
@@ -685,7 +695,7 @@ awful.spawn.with_shell("nitrogen --restore")
 --awful.spawn.with_shell("spotify")
 awful.spawn.with_shell("pavucontrol")
 awful.spawn.with_shell("caprine")
-awful.spawn.with_shell("compton")
+awful.spawn.with_shell("picom")
 awful.spawn.with_shell("nm-applet")
 
 
