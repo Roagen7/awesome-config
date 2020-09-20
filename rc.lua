@@ -86,8 +86,9 @@ modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-    --awful.layout.suit.floating,
+    
     awful.layout.suit.tile,
+    awful.layout.suit.floating,
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.bottom,
     --awful.layout.suit.tile.top,
@@ -126,8 +127,9 @@ minecraftmenu = {
 favoritemenu = {
     {"firefox", function() awful.spawn.with_shell("firefox") end},
     {"krita", function() awful.spawn.with_shell("krita") end},
-    {"discord", function() awful.spawn.with_shell("discord") end},
+    {"discord", function() awful.spawn.with_shell("exec ~/Programs/discord-0.0.12/Discord/Discord")end},
     {"minecraft",minecraftmenu},
+    {"netbeans", function() awful.spawn.with_shell("exec /usr/share/apache-netbeans/bin/netbeans") end},
     {"messenger", function() awful.spawn.with_shell("caprine") end},
     {"spotify", function() awful.spawn.with_shell("spotify") end},
     {"steam", function() awful.spawn.with_shell("steam") end},
@@ -229,7 +231,7 @@ awful.screen.connect_for_each_screen(function(s)
     --set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "MAIN", "WEB", "DEV", "DEV2", "RND", "RND" }, s, awful.layout.layouts[1])
+    awful.tag({ "一", "二", "三", "四", "五", "六", "七", "八", "九" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -260,7 +262,7 @@ awful.screen.connect_for_each_screen(function(s)
             
         layout = wibox.layout.fixed.horizontal,
         --s.mytasklist, 
-    
+   
         {   
             layout = wibox.layout.fixed.horizontal,
             
@@ -685,7 +687,7 @@ end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus c.border_width = beautiful.border_focus_width end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 

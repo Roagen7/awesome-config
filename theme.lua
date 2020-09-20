@@ -11,7 +11,7 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font          = "scientifica 12"
+theme.font          = "Lato 10"
 
 violet = "#9e7b9b77"
 dark_violet = "#5e495d77"
@@ -19,7 +19,7 @@ cyan = "#8abeb777"
 black = "#00000077"
 white = "#ffffff77"
 grey = "#535d6c"
-
+yellow = "#ffff76"
 
 theme.bg_normal     = black
 theme.bg_focus      = dark_violet
@@ -34,9 +34,15 @@ theme.fg_minimize   = "#ffffff"
 
 theme.useless_gap   = 5
 theme.border_width  = dpi(1)
+theme.border_focus_width = dpi(1)
 theme.border_normal = dark_violet
-theme.border_focus  = grey 
+theme.border_focus  = yellow
 theme.border_marked = "#91231c"
+
+theme.taglist_bg_focus = yellow
+theme.taglist_fg_focus = black
+
+
 
 -- There are other variable sets
 -- overriding the default one when
