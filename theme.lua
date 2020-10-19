@@ -20,8 +20,13 @@ black = "#00000077"
 white = "#ffffff77"
 grey = "#535d6c"
 yellow = "#ffff76"
+dark_green = "#024442"
+dark_green2 = "#003333"
 
-theme.bg_normal     = black
+current_focused = yellow
+
+
+theme.bg_normal     = "#000000"
 theme.bg_focus      = dark_violet
 theme.bg_urgent     = "#ffffff77"
 theme.bg_minimize   = "#00000077"
@@ -33,15 +38,18 @@ theme.fg_urgent     = "#000000"
 theme.fg_minimize   = "#ffffff"
 
 theme.useless_gap   = 5
-theme.border_width  = dpi(1)
-theme.border_focus_width = dpi(1)
+theme.border_width  = dpi(2)
+theme.border_focus_width = dpi(2)
 theme.border_normal = dark_violet
-theme.border_focus  = yellow
+theme.border_focus  = current_focused
 theme.border_marked = "#91231c"
 
-theme.taglist_bg_focus = yellow
-theme.taglist_fg_focus = black
+theme.taglist_bg_focus = current_focused
+theme.taglist_fg_focus = "#000000"
 
+
+theme.tasklist_bg_normal = dark_violet
+theme.tasklist_bg_focus = current_focused
 
 
 -- There are other variable sets

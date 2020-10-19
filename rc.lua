@@ -1,3 +1,14 @@
+function os.capture(cmd, raw)
+    local f = assert(io.popen(cmd, 'r'))
+    local s = assert(f:read('*a'))
+    f:close()
+    if raw then return s end
+    s = string.gsub(s, '^%s+', '')
+    s = string.gsub(s, '%s+$', '')
+    s = string.gsub(s, '[\n\r]+', ' ')
+    return s
+  end
+
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
@@ -16,8 +27,11 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
--- widgets lib
+-- variables
 
+--handle = io.popen('coronaget')
+--result = handle:read()
+--handle:close()
 
 
 
@@ -123,20 +137,38 @@ minecraftmenu = {
 
 }
 
+documents = {
+    {"writer", function() awful.spawn.with_shell("libreoffice --writer") end},
+    {"okular", function() awful.spawn.with_shell("okular") end},
+    {"krita", function() awful.spawn.with_shell("krita") end},
+
+}
+
+social = {
+    {"discord", function() awful.spawn.with_shell("exec ~/Programs/discord-0.0.12/Discord/Discord")end},
+    {"messenger", function() awful.spawn.with_shell("caprine") end},
+    {"teams", function() awful.spawn.with_shell("teams") end},
+    {"steam", function() awful.spawn.with_shell("steam") end},
+
+
+}
+
+programming  = {
+    {"emacs",function() awful.spawn.with_shell("emacs") end},
+    {"netbeans", function() awful.spawn.with_shell("exec /usr/share/apache-netbeans/bin/netbeans") end}
+
+}
+
 
 favoritemenu = {
     {"firefox", function() awful.spawn.with_shell("firefox") end},
-    {"krita", function() awful.spawn.with_shell("krita") end},
-    {"discord", function() awful.spawn.with_shell("exec ~/Programs/discord-0.0.12/Discord/Discord")end},
+    {"tor", function() awful.spawn.with_shell("tor-browser") end},
+    {"social", social},
     {"minecraft",minecraftmenu},
-    {"netbeans", function() awful.spawn.with_shell("exec /usr/share/apache-netbeans/bin/netbeans") end},
-    {"messenger", function() awful.spawn.with_shell("caprine") end},
+    {"documents",documents},
+    {"programming",programming},
     {"spotify", function() awful.spawn.with_shell("spotify") end},
-    {"steam", function() awful.spawn.with_shell("steam") end},
     {"file manager", function() awful.spawn.with_shell("nautilus .") end},
-    {"writer", function() awful.spawn.with_shell("libreoffice --writer") end},
-    {"okular", function() awful.spawn.with_shell("okular") end},
-    {"teams", function() awful.spawn.with_shell("teams") end},
     { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end }
 
 
@@ -254,7 +286,10 @@ awful.screen.connect_for_each_screen(function(s)
     s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons,
     {disable_task_name = true, align="right"},
      mylistupdate
-)
+    )
+
+    mysystray = wibox.widget.systray(true)
+    mysystray.visible = true
 
     local fg_color = "#ffffff"
     --widget grouping
@@ -262,20 +297,23 @@ awful.screen.connect_for_each_screen(function(s)
             
         layout = wibox.layout.fixed.horizontal,
         --s.mytasklist, 
-   
+
         {   
             layout = wibox.layout.fixed.horizontal,
-            
+            mysystray,
+            wibox.container.margin(mytextclock,10,10),
+
             --volume_widget({display_notification = true}),
-            wibox.container.margin(volumebar_widget({
-                main_color = fg_color,
-                mute_color = '#ff0000',
-                width = 50,
+
+            --wibox.container.margin(volumebar_widget({
+            --    main_color = fg_color,
+             --   mute_color = '#ff0000',
+             --   width = 50,
                 
-               shape = "bar", -- octogon, hexagon, powerline, etc
+             --  shape = "bar", -- octogon, hexagon, powerline, etc
                 -- bar's height = wibar's height minus 2x margins
-                margins = 10
-            }),10, 10),
+             --   margins = 10
+            --}),10, 10),
             --wibox.container.margin( cpu_widget({color = fg_color}),10,10),
         },
         --ram_widget({color=fg_color}),
@@ -288,14 +326,63 @@ awful.screen.connect_for_each_screen(function(s)
         }
 
 
+        s.mytasklist = awful.widget.tasklist {
+            screen   = s,
+            filter   = awful.widget.tasklist.filter.currenttags,
+            --buttons  = tasklist_buttons,
+            style    = {
+                border_width = 1,
+                border_color = "#ffff76",
+                --bg_focus = "#ffff76",
+                fg_focus = "#000000"
+                --shape        = gears.shape.rounded_bar,
+            },
+            layout   = {
+                spacing = 0,
+                spacing_widget = {
+                    {
+                        forced_width = 5,
+                        shape        = gears.shape.circle,
+                        widget       = wibox.widget.separator
+                    },
+                    valign = 'center',
+                    halign = 'center',
+                    widget = wibox.container.place,
+                },
+                layout  = wibox.layout.fixed.horizontal
+            },
+            -- Notice that there is *NO* wibox.wibox prefix, it is a template,
+            -- not a widget instance.
+            widget_template = {
+                {
+                    {
+                        {   
+                            forced_width = 400,
+                            id     = 'text_role',
+                            widget = wibox.widget.textbox,
+                        },
+                        layout = wibox.layout.align.horizontal,
+                    },
+                    left  = 20,
+                    right = 20,
+                    widget = wibox.container.margin
+                },
+                id     = 'background_role',
+                widget = wibox.container.background,
+            },
+        }
+
+
+
+
+
 
 
 
     -- Create the wibox
     s.mywibox = awful.wibar({ screen = s, width = s.geometry.width/3, x = s.geometry.x, y = s.geometry.y})
     
-    mysystray = wibox.widget.systray(true)
-    mysystray.visible = false
+
 
 
     s.option_box = wibox()
@@ -309,25 +396,25 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         
         { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
+            layout = wibox.layout.align.horizontal,
             --mylauncher,
-            s.mytaglist,
+            s.mytaglist,            
+           s.mytasklist, 
             s.mypromptbox,
         },
 
         --middle
         { 
-        layout = wibox.layout.fixed.horizontal,
-        
+        layout = wibox.layout.align.horizontal,
+    
         --mykeyboardlayout,
         --cpuwidget,
-        mysystray,
-        mytextclock,
-        
     },
+        {
         --right
+            layout = wibox.layout.align.horizontal,
         myrightwidget
-        
+        }
         
 
         
@@ -406,6 +493,8 @@ globalkeys = gears.table.join(
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
+              {description = "open a terminal", group = "launcher"}),
+    awful.key({ modkey,           }, "\\", function () awful.spawn("emacs") end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
@@ -695,11 +784,11 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 awful.spawn.with_shell("nitrogen --restore")
 --awful.spawn.with_shell("spotify")
-awful.spawn.with_shell("pavucontrol")
+awful.spawn.with_shell("pasystray")
 awful.spawn.with_shell("caprine")
 awful.spawn.with_shell("picom")
 awful.spawn.with_shell("nm-applet")
-
+--handle:close()
 
 -- gaps
 
