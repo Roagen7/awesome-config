@@ -48,7 +48,7 @@ theme.taglist_bg_focus = current_focused
 theme.taglist_fg_focus = "#000000"
 
 
-theme.tasklist_bg_normal = dark_violet
+theme.tasklist_bg_normal = "#000000"
 theme.tasklist_bg_focus = current_focused
 
 

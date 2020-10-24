@@ -20,14 +20,19 @@ local awful = require("awful")
 require("awful.autofocus")
 -- Widget and layout library
 local wibox = require("wibox")
+local vicious = require("vicious")
+
+
 -- Theme handling library
 local beautiful = require("beautiful")
+local ut = require("utils")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
 -- variables
+--local thm = require("utils.lua")
 
 --handle = io.popen('coronaget')
 --result = handle:read()
@@ -42,6 +47,11 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 
 --local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 
+local memwidget = wibox.widget.textbox()
+vicious.cache(vicious.widgets.mem)
+vicious.register(memwidget, vicious.widgets.mem, "$1 ($2MiB/$3MiB)", 13)
+
+
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local cw = calendar_widget({
     theme = 'dark',
@@ -51,6 +61,11 @@ local cw = calendar_widget({
 local volume_widget = require("awesome-wm-widgets.volume-widget.volume")
 local volumebar_widget = require("awesome-wm-widgets.volumebar-widget.volumebar")
 
+local datewidget = wibox.widget.textbox()
+vicious.register(datewidget, vicious.widgets.date, "%b %d, %R")
+
+local cpuwidget = wibox.widget.textbox()
+vicious.register(cpuwidget, vicious.widgets.cpu, "$1 % CPU", 3)
 
 archicon = "~/.config/awesome/archlinux-icon.png"
 -- Enable hotkeys help widget for VIM and other apps
@@ -202,7 +217,6 @@ mytextclock:connect_signal("button::press",
 
 
 
-
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -300,9 +314,29 @@ awful.screen.connect_for_each_screen(function(s)
 
         {   
             layout = wibox.layout.fixed.horizontal,
-            mysystray,
-            wibox.container.margin(mytextclock,10,10),
+            wibox.container.margin(mysystray,10,10),
 
+            {
+                wibox.container.margin(memwidget,10,10),
+                bg = ut.current_focused,
+                fg = ut.current_bg,
+                widget = wibox.container.background
+            },
+            {                    
+                wibox.container.margin(cpuwidget,10,10),
+                bg = ut.current_focused,
+                fg = ut.current_bg,
+                widget = wibox.container.background               
+
+            },
+             {                    
+                wibox.container.margin(datewidget,10,10),
+                bg = ut.current_focused,
+                fg = ut.current_bg,
+                widget = wibox.container.background               
+
+            },           
+            
             --volume_widget({display_notification = true}),
 
             --wibox.container.margin(volumebar_widget({
@@ -435,6 +469,9 @@ root.buttons(gears.table.join(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
+
+    
+
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
             {description="show help", group="awesome"}),
     awful.key({ modkey, "Control"}, "s", function () 
@@ -531,7 +568,9 @@ globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
+    --awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
+    --          {description = "run prompt", group = "launcher"}),
+    awful.key({ modkey },            "r",     function () awful.spawn.with_shell("dmenu_run -i -p 'Run:' -nb '#000000' -sb '#ffff76' -sf '#000000' -fn 'Monospace:pixelsize=17'") end,
               {description = "run prompt", group = "launcher"}),
 
     awful.key({ modkey }, "x",
@@ -550,6 +589,15 @@ globalkeys = gears.table.join(
 )
 
 clientkeys = gears.table.join(
+    awful.key({ modkey, "Shift"   }, "Down",   function (c) c:relative_move(  0,  20,   0,   0) end),
+    awful.key({ modkey, "Shift"   }, "Up",     function (c) c:relative_move(  0, -20,   0,   0) end),
+    awful.key({ modkey, "Shift"   }, "Left",   function (c) c:relative_move(-20,   0,   0,   0) end),
+    awful.key({ modkey, "Shift"   }, "Right",  function (c) c:relative_move( 20,   0,   0,   0) end),
+    awful.key({ modkey, "Shift"   }, "Next",   function (c) c:relative_move( 20,  20, -40, -40) end),
+    awful.key({ modkey, "Shift"   }, "Prior",  function (c) c:relative_move(-20, -20,  40,  40) end),
+
+
+
     awful.key({ modkey,           }, "f",
         function (c)
             c.fullscreen = not c.fullscreen
@@ -775,6 +823,14 @@ client.connect_signal("request::titlebars", function(c)
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.
+client.connect_signal("mouse::enter",function(c)
+    c:emit_signal("request::activate","mouse_enter",
+    {raise = false})
+end
+
+)
+
+
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus c.border_width = beautiful.border_focus_width end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
