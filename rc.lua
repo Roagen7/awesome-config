@@ -474,6 +474,13 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
             {description="show help", group="awesome"}),
+    awful.key({modkey,            }, "-", function ()
+        awful.spawn.with_shell("alacritty --command vifm")
+        end,
+            {description="open vifm",group="awesome"}
+    ),
+
+
     awful.key({ modkey, "Control"}, "s", function () 
         awful.spawn.with_shell("shutdown") 
         naughty.notify({ preset = naughty.config.presets.critical,
