@@ -11,7 +11,7 @@ utils.yellow = "#ffff76"
 utils.dark_green = "#024442"
 utils.dark_green2 = "#003333"
 
-utils.current_focused = utils.yellow
+utils.current_focused = utils.dark_green
 utils.current_bg = utils.black
 
 return utils

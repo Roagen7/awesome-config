@@ -11,6 +11,8 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
+local ut = require("utils")
+
 theme.font          = "Lato 10"
 
 violet = "#9e7b9b77"
@@ -23,19 +25,19 @@ yellow = "#ffff76"
 dark_green = "#024442"
 dark_green2 = "#003333"
 
-current_focused = yellow
+current_focused = ut.current_focused
 
 
-theme.bg_normal     = "#000000"
-theme.bg_focus      = dark_violet
-theme.bg_urgent     = "#ffffff77"
-theme.bg_minimize   = "#00000077"
+theme.bg_normal     = ut.black
+theme.bg_focus      = ut.dark_violet
+theme.bg_urgent     = ut.white
+theme.bg_minimize   = ut.black
 --theme.bg_systray    = "#9e7b9b"
 
-theme.fg_normal     = "#ffffff"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#000000"
-theme.fg_minimize   = "#ffffff"
+theme.fg_normal     = ut.white
+theme.fg_focus      = ut.white
+theme.fg_urgent     = ut.black
+theme.fg_minimize   = ut.white
 
 theme.useless_gap   = 5
 theme.border_width  = dpi(2)

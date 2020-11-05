@@ -479,6 +479,12 @@ globalkeys = gears.table.join(
         end,
             {description="open vifm",group="awesome"}
     ),
+    awful.key({modkey,            }, "i", function ()
+        awful.spawn.with_shell("website_menu")
+        end,
+            {description="open website menu",group="awesome"}
+    ),
+
 
 
     awful.key({ modkey, "Control"}, "s", function () 
