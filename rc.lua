@@ -52,14 +52,14 @@ vicious.cache(vicious.widgets.mem)
 vicious.register(memwidget, vicious.widgets.mem, "$1 ($2MiB/$3MiB)", 13)
 
 
-local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
-local cw = calendar_widget({
-    theme = 'dark',
+--local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+--local cw = calendar_widget({
+ --   theme = 'dark',
     
-}) 
+--}) 
 
-local volume_widget = require("awesome-wm-widgets.volume-widget.volume")
-local volumebar_widget = require("awesome-wm-widgets.volumebar-widget.volumebar")
+--local volume_widget = require("awesome-wm-widgets.volume-widget.volume")
+--local volumebar_widget = require("awesome-wm-widgets.volumebar-widget.volumebar")
 
 local datewidget = wibox.widget.textbox()
 vicious.register(datewidget, vicious.widgets.date, "%b %d, %R")
@@ -159,19 +159,23 @@ documents = {
 
 }
 
+games = {
+    {"steam", function() awful.spawn.with_shell("steam") end},
+    {"geforce now", function () awful.spawn.with_shell("brave") end},
+
+}
+
+
 social = {
     {"discord", function() awful.spawn.with_shell("exec ~/Programs/discord-0.0.12/Discord/Discord")end},
     {"messenger", function() awful.spawn.with_shell("caprine") end},
     {"teams", function() awful.spawn.with_shell("teams") end},
-    {"steam", function() awful.spawn.with_shell("steam") end},
-
-
-}
+    }
 
 programming  = {
     {"emacs",function() awful.spawn.with_shell("emacs") end},
-    {"netbeans", function() awful.spawn.with_shell("exec /usr/share/apache-netbeans/bin/netbeans") end}
-
+    {"netbeans", function() awful.spawn.with_shell("exec /usr/share/apache-netbeans/bin/netbeans") end},
+    {"processing", function() awful.spawn.with_shell("exec /home/roagen/Programs/processing-3.5.4-linux64/processing-3.5.4/processing") end}
 }
 
 
@@ -179,6 +183,7 @@ favoritemenu = {
     {"firefox", function() awful.spawn.with_shell("firefox") end},
     {"tor", function() awful.spawn.with_shell("tor-browser") end},
     {"social", social},
+    {"games",games},
     {"minecraft",minecraftmenu},
     {"documents",documents},
     {"programming",programming},
@@ -277,8 +282,8 @@ awful.screen.connect_for_each_screen(function(s)
     --set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "一", "二", "三", "四", "五", "六", "七", "八", "九" }, s, awful.layout.layouts[1])
-
+    awful.tag({ "一", "二", "三", "四" }, s, awful.layout.layouts[1])
+    --"五", "六", "七", "八", "九"
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
@@ -433,14 +438,15 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.align.horizontal,
             --mylauncher,
             s.mytaglist,            
-           s.mytasklist, 
+            s.mytasklist,  
             s.mypromptbox,
         },
 
         --middle
         { 
         layout = wibox.layout.align.horizontal,
-    
+        
+         
         --mykeyboardlayout,
         --cpuwidget,
     },
@@ -583,7 +589,7 @@ globalkeys = gears.table.join(
     -- Prompt
     --awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
     --          {description = "run prompt", group = "launcher"}),
-    awful.key({ modkey },            "r",     function () awful.spawn.with_shell("dmenu_run -i -p 'Run:' -nb '#000000' -sb '#ffff76' -sf '#000000' -fn 'Monospace:pixelsize=17'") end,
+    awful.key({ modkey },            "r",     function () awful.spawn.with_shell("dmenu_run -i -p 'Run:' -nb '#000000' -sb '"..ut.current_focused.."' -sf '#000000' -fn 'Monospace:pixelsize=17'") end,
               {description = "run prompt", group = "launcher"}),
 
     awful.key({ modkey }, "x",
@@ -854,9 +860,10 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 awful.spawn.with_shell("nitrogen --restore")
 --awful.spawn.with_shell("spotify")
 awful.spawn.with_shell("pasystray")
-awful.spawn.with_shell("caprine")
+--awful.spawn.with_shell("caprine")
 awful.spawn.with_shell("picom")
 awful.spawn.with_shell("nm-applet")
+awful.spawn.with_shell("setxkbmap pl")
 --handle:close()
 
 -- gaps

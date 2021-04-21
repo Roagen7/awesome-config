@@ -39,10 +39,15 @@ theme.fg_focus      = ut.white
 theme.fg_urgent     = ut.black
 theme.fg_minimize   = ut.white
 
+
+theme.hotkeys_fg = ut.white
+theme.hotkeys_modifiers_fg = ut.white
+theme.hotkeys_label_fg = ut.white
+
 theme.useless_gap   = 5
 theme.border_width  = dpi(2)
 theme.border_focus_width = dpi(2)
-theme.border_normal = dark_violet
+theme.border_normal = ut.current_unfocused
 theme.border_focus  = current_focused
 theme.border_marked = "#91231c"
 
