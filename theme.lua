@@ -34,6 +34,9 @@ theme.bg_urgent     = ut.white
 theme.bg_minimize   = ut.black
 --theme.bg_systray    = "#9e7b9b"
 
+
+theme.bg_systray = ut.current_bg
+theme.fg_systray = "#000000"
 theme.fg_normal     = ut.white
 theme.fg_focus      = ut.white
 theme.fg_urgent     = ut.black
@@ -45,18 +48,24 @@ theme.hotkeys_modifiers_fg = ut.white
 theme.hotkeys_label_fg = ut.white
 
 theme.useless_gap   = 5
-theme.border_width  = dpi(2)
-theme.border_focus_width = dpi(2)
+theme.border_width  = dpi(3)
+theme.border_focus_width = dpi(3)
 theme.border_normal = ut.current_unfocused
 theme.border_focus  = current_focused
-theme.border_marked = "#91231c"
+theme.border_marked = "#91231cff"
 
 theme.taglist_bg_focus = current_focused
-theme.taglist_fg_focus = "#000000"
+theme.taglist_fg_focus = ut.mem_fg
+--theme.taglist_fg_normal = "#000000"
+theme.taglist_fg_occupied = "#000000"
+theme.taglist_fg_empty = "#000000"
 
 
-theme.tasklist_bg_normal = "#000000"
+theme.tasklist_bg_normal = ut.current_bg
 theme.tasklist_bg_focus = current_focused
+theme.tasklist_fg_normal = "#000000"
+theme.tasklist_fg_focus = ut.mem_fg
+theme.tasklist_bg_minimize = ut.current_bg
 
 
 -- There are other variable sets
@@ -103,7 +112,7 @@ theme.menu_width  = dpi(200)
 
 theme.wibar_stretch = true
 theme.wibar_height = dpi(25)
-
+theme.wibar_bg = ut.current_bg
 
 
 

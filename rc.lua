@@ -30,7 +30,6 @@ local ut = require("utils")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
-
 -- variables
 --local thm = require("utils.lua")
 
@@ -162,6 +161,8 @@ documents = {
 games = {
     {"steam", function() awful.spawn.with_shell("steam") end},
     {"geforce now", function () awful.spawn.with_shell("brave") end},
+    --{"poker", function() awful.spawn.with_shell("wine .wine/drive_c/Program\ Files\ \(x86\)/PokerStars.EU/PokerStars.exe") end},
+    {"poker", function () awful.spawn.with_shell("wine .wine/drive_c/Program\\ Files\\ \\(x86\\)/PokerStars.EU/PokerStars.exe") end},
 
 }
 
@@ -175,7 +176,10 @@ social = {
 programming  = {
     {"emacs",function() awful.spawn.with_shell("emacs") end},
     {"netbeans", function() awful.spawn.with_shell("exec /usr/share/apache-netbeans/bin/netbeans") end},
-    {"processing", function() awful.spawn.with_shell("exec /home/roagen/Programs/processing-3.5.4-linux64/processing-3.5.4/processing") end}
+    {"processing", function() awful.spawn.with_shell("exec /home/roagen/Programs/processing-3.5.4-linux64/processing-3.5.4/processing") end},
+    {"jetbrains-toolbox", function() awful.spawn.with_shell("exec /home/roagen/Programs/jetbrains-toolbox") end},
+    {"godot", function() awful.spawn.with_shell("exec /home/roagen/Programs/Godot_v3.3.2-stable_x11.64") end},
+
 }
 
 
@@ -298,7 +302,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.mytaglist = awful.widget.taglist {
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
-        buttons = taglist_buttons
+        buttons = taglist_buttons,
     }
 
     -- Create a tasklist widget
@@ -323,21 +327,22 @@ awful.screen.connect_for_each_screen(function(s)
 
             {
                 wibox.container.margin(memwidget,10,10),
-                bg = ut.current_focused,
-                fg = ut.current_bg,
+                --!!!!!!
+		bg = ut.current_focused,
+                fg = ut.mem_fg,
                 widget = wibox.container.background
             },
             {                    
                 wibox.container.margin(cpuwidget,10,10),
                 bg = ut.current_focused,
-                fg = ut.current_bg,
+                fg = ut.mem_fg,
                 widget = wibox.container.background               
 
             },
              {                    
                 wibox.container.margin(datewidget,10,10),
                 bg = ut.current_focused,
-                fg = ut.current_bg,
+                fg = ut.mem_fg,
                 widget = wibox.container.background               
 
             },           
@@ -373,7 +378,7 @@ awful.screen.connect_for_each_screen(function(s)
                 border_width = 1,
                 border_color = "#ffff76",
                 --bg_focus = "#ffff76",
-                fg_focus = "#000000"
+                --fg_focus = "#000000"
                 --shape        = gears.shape.rounded_bar,
             },
             layout   = {
@@ -589,7 +594,7 @@ globalkeys = gears.table.join(
     -- Prompt
     --awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
     --          {description = "run prompt", group = "launcher"}),
-    awful.key({ modkey },            "r",     function () awful.spawn.with_shell("dmenu_run -i -p 'Run:' -nb '#000000' -sb '"..ut.current_focused.."' -sf '#000000' -fn 'Monospace:pixelsize=17'") end,
+    awful.key({ modkey },            "r",     function () awful.spawn.with_shell("dmenu_run -i -p 'Run:' -nb '#ffffff' -sb '"..ut.current_focused.."' -sf '#000000' -fn 'Monospace:pixelsize=17'") end,
               {description = "run prompt", group = "launcher"}),
 
     awful.key({ modkey }, "x",
