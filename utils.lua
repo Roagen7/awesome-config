@@ -15,8 +15,8 @@ utils.navy_blue = "#2b374b"
 utils.fire = "#E38C2D"
 utils.white_true= "#ffffffff"
 
-utils.current_focused = utils.chill
-utils.current_unfocused = utils.navy_blue
+utils.current_focused = "#bdd2ff"
+utils.current_unfocused = utils.black
 utils.current_bg = utils.black
 
 return utils

@@ -42,8 +42,19 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 
 --local network = vicious.widgets.wifi()
 
-
-
+local batwidget_fix = wibox.widget.textbox();
+--batbox = wibox.layout.margin(
+--    wibox.widget{ { max_value = 1, widget = batwidget,
+--                    border_width = 0.5, border_color = "#000000",
+--		    color = { type = "linear",
+--			      from = { 0, 0 },									            
+--			      to = { 0, 30 },													                              
+--			      stops = { { 0, "#AECF96" },{ 1, "#FF5656" } } } },																		                        forced_height = 10, forced_width = 8,
+--																								                  direction = 'east', color = beautiful.fg_widget,
+--																										                    layout = wibox.container.rotate },
+--																												        1, 1, 3, 3)
+--ss
+vicious.register(batwidget_fix,vicious.widgets.bat,"$2 %",61,"BAT0")
 
 --local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 
@@ -148,7 +159,9 @@ myawesomemenu = {
 
 minecraftmenu = {
     {"minecraft-launcher",function() awful.spawn.with_shell("minecraft-launcher") end},
-    {"technic-launcher",function() awful.spawn.with_shell("java -jar ~/Programs/minecraft/TechnicLauncher.jar") end}
+    {"technic-launcher",function() awful.spawn.with_shell("java -jar ~/minecraft/TechnicLauncher.jar") end},
+    {"tlauncher",function() awful.spawn.with_shell("java -jar ~/minecraft/TLauncher-2.8.jar") end}
+
 
 }
 
@@ -175,7 +188,9 @@ social = {
 programming  = {
     {"emacs",function() awful.spawn.with_shell("emacs") end},
     {"netbeans", function() awful.spawn.with_shell("exec /usr/share/apache-netbeans/bin/netbeans") end},
-    {"processing", function() awful.spawn.with_shell("exec /home/roagen/Programs/processing-3.5.4-linux64/processing-3.5.4/processing") end}
+    {"processing", function() awful.spawn.with_shell("exec /home/roagen/Programs/processing-3.5.4-linux64/processing-3.5.4/processing") end},
+    {"jetbrains", function() awful.spawn.with_shell("exec /home/roagen/Programs/jetbrains-toolbox") end},
+
 }
 
 
@@ -282,9 +297,8 @@ awful.screen.connect_for_each_screen(function(s)
     --set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "一", "二", "三", "四" }, s, awful.layout.layouts[1])
-    --"五", "六", "七", "八", "九"
-    -- Create a promptbox for each screen
+    awful.tag({ "一", "二", "三", "四","五", "六", "七", "八", "九"}, s, awful.layout.layouts[1])
+        -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
@@ -341,6 +355,13 @@ awful.screen.connect_for_each_screen(function(s)
                 widget = wibox.container.background               
 
             },           
+             {                    
+                wibox.container.margin(batwidget_fix,10,10),
+                bg = ut.current_focused,
+                fg = ut.current_bg,
+                widget = wibox.container.background               
+
+            },
             
             --volume_widget({display_notification = true}),
 
@@ -589,7 +610,7 @@ globalkeys = gears.table.join(
     -- Prompt
     --awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
     --          {description = "run prompt", group = "launcher"}),
-    awful.key({ modkey },            "r",     function () awful.spawn.with_shell("dmenu_run -i -p 'Run:' -nb '#000000' -sb '"..ut.current_focused.."' -sf '#000000' -fn 'Monospace:pixelsize=17'") end,
+    awful.key({ modkey },            "r",     function () awful.spawn.with_shell("dmenu_run -i -p 'Run:' -nb '#000000' -sb '"..ut.current_focused.."' -sf '#000000' -fn 'Monospace:pixelsize=19'") end,
               {description = "run prompt", group = "launcher"}),
 
     awful.key({ modkey }, "x",
